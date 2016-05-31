@@ -1,6 +1,6 @@
 jar {
     manifest {
-        attributes 'Main-Class': 'com.nixmash.springdata.jpa.Launcher'
+        attributes 'Main-Class': 'com.nixmash.springdata.jpa.JpaLauncher'
     }
 }
 
@@ -10,13 +10,22 @@ sourceSets {
         resources.srcDir('src/main/resources')
     }
     test {
-        java.srcDir('src/test')
-        resources.srcDir('src/resources')
+        java.srcDir('src/test/java')
     }
 }
 
 configurations {
     compile.exclude module: 'org.slf4j'
+}
+
+springBoot {
+    mainClass = 'com.nixmash.springdata.jpa.JpaLauncher'
+}
+
+dependencies {
+	compile("org.springframework.boot:spring-boot-starter-social-twitter")
+	compile("org.springframework.boot:spring-boot-starter-social-facebook")
+	compile("org.springframework.social:spring-social-security:1.1.4.RELEASE")
 }
 
 task serviceTests(type: Test, dependsOn: testClasses) {
@@ -33,8 +42,8 @@ task production << {
 
 bootRun {
     addResources = false
-//    systemProperty 'spring.profiles.active', 'h2'
-    main = 'com.nixmash.springdata.jpa.Launcher'
+    systemProperty 'spring.profiles.active', 'mysql'
+    main = 'com.nixmash.springdata.jpa.JpaLauncher'
 }
 
 task rmTestdb(type: Exec) {

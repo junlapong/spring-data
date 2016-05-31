@@ -1,3 +1,2 @@
-include "jpa", "mvc"
-
+include "jpa", "mvc", "solr", "mail", "jsoup"
 

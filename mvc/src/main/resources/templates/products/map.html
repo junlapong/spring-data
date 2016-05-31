@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:include="fragments/head :: head" th:remove="tag">Global Header</div>
+<title th:text="#{product.map.page.title}"></title>
+<link rel="stylesheet" th:href="@{/css/maps.css}" type="text/css" />
+</head>
+<body>
+	<nav th:replace="fragments/navbar :: navbar('demos')">Navbar</nav>
+
+	<div class="container">
+		<div class="page-header" id="banner">
+			<div class="row">
+				<div class="col-lg-8 col-md-7 col-sm-6">
+					<h1 th:text="#{product.map.page.header}">[Multi-Marker Map]</h1>
+					<p class="lead" th:utext="#{product.map.page.subheader}">[Solr Search Map with Multiple Markers]</p>
+				</div>
+				<div th:replace="fragments/sponsor :: [id='sponsor']">Sponsor Image</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container bs-docs-container big-font-container">
+		<div class="row row-map">
+			<div th:if="${mappingError}" class="mappingError">
+				<div th:text="${mappingError}"></div>
+				<p class="mapErrorLineSeparator">----------------------------------</p>
+				<div class="mapGoodLink">
+					<a href="#" th:href="@{/products/map}" th:text="#{product.map.page.goodlink.text}">[good map link]</a>
+				</div>
+			</div>
+			<div th:if="${mappingError == null}" class="col-lg-9">
+				<div class="map-info" th:text="#{product.map.page.mapinfo(${location})}">[Map Info]</div>
+				<div class="map_container">
+					<div id="map_canvas" class="map_canvas"></div>
+				</div>
+				<div class="mapBadLink">
+					<a href="#" th:href="@{/products/map/bad}" th:text="#{product.map.page.badlink.text}">[bad map link]</a>
+				</div>
+			</div>
+		</div>
+		<nav th:replace="fragments/secinfo :: [id='secInfo']">User Info</nav>
+	</div>
+
+	<div th:include="fragments/scripts :: [id='scripts']" th:remove="tag">Scripts</div>
+
+	<div th:if="${mappingError == null}">
+		<script th:src="@{/js/multimap.js}"></script>
+		<script
+			src="https://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false&amp;key=AIzaSyAN40J-X2vlp7NX9iD_T396Mp2ysTp67P0&amp;callback=renderGoogleMap"></script>
+		<script src="https://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
+	</div>
+</body>
+</html>

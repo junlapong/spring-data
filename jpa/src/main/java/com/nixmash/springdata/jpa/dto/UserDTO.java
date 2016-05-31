@@ -1,5 +1,6 @@
 package com.nixmash.springdata.jpa.dto;
 
+import com.nixmash.springdata.jpa.enums.SignInProvider;
 import com.nixmash.springdata.jpa.model.Authority;
 import com.nixmash.springdata.jpa.model.User;
 import com.nixmash.springdata.jpa.model.validators.ExtendedEmailValidator;
@@ -11,24 +12,43 @@ import java.util.Collection;
 
 public class UserDTO {
 
-    @Length(min= User.MIN_LENGTH_USERNAME, max=User.MAX_LENGTH_USERNAME)
+    public UserDTO() {
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    private Long userId;
+    private boolean updateChildren = true;
+
+    @Length(min = User.MIN_LENGTH_USERNAME, max = User.MAX_LENGTH_USERNAME)
     private String username = "";
 
     @Basic
     @ExtendedEmailValidator
-    @Length(max=User.MAX_LENGTH_EMAIL_ADDRESS)
+    @Length(max = User.MAX_LENGTH_EMAIL_ADDRESS)
     private String email = "";
 
-    @Length(min=User.MIN_LENGTH_PASSWORD, max=User.MAX_LENGTH_PASSWORD)
+    //    @Length(min=User.MIN_LENGTH_PASSWORD, max=User.MAX_LENGTH_PASSWORD)
     private String password = "";
 
     @NotEmpty
-    @Length(min=User.MIN_LENGTH_FIRST_NAME, max=User.MAX_LENGTH_FIRST_NAME)
+    @Length(min = User.MIN_LENGTH_FIRST_NAME, max = User.MAX_LENGTH_FIRST_NAME)
     private String firstName = "";
 
     @NotEmpty
-    @Length(min=User.MIN_LENGTH_LAST_NAME, max=User.MAX_LENGTH_LAST_NAME)
+    @Length(min = User.MIN_LENGTH_LAST_NAME, max = User.MAX_LENGTH_LAST_NAME)
     private String lastName = "";
+
+    private boolean hasAvatar;
+    private String userKey;
+
+    private SignInProvider signInProvider;
 
     private String repeatedPassword = "";
 
@@ -51,7 +71,8 @@ public class UserDTO {
     }
 
     public String getPassword() {
-        return password;
+        return "something";
+        //return password;
     }
 
     public void setPassword(String password) {
@@ -59,7 +80,8 @@ public class UserDTO {
     }
 
     public String getRepeatedPassword() {
-        return repeatedPassword;
+        return "something";
+        //  return repeatedPassword;
     }
 
     public void setRepeatedPassword(String repeatedPassword) {
@@ -75,7 +97,6 @@ public class UserDTO {
     }
 
     public String getLastName() {
-
         return lastName;
     }
 
@@ -91,14 +112,49 @@ public class UserDTO {
         this.firstName = firstName;
     }
 
+    public SignInProvider getSignInProvider() {
+        return signInProvider;
+    }
+
+    public void setSignInProvider(SignInProvider signInProvider) {
+        this.signInProvider = signInProvider;
+    }
+
+    public boolean isHasAvatar() {
+        return hasAvatar;
+    }
+
+    public void setHasAvatar(boolean hasAvatar) {
+        this.hasAvatar = hasAvatar;
+    }
+
+    public String getUserKey() {
+        return userKey;
+    }
+
+    public void setUserKey(String userKey) {
+        this.userKey = userKey;
+    }
+
+    public boolean isNew() {
+        return (this.userId == null);
+    }
+
+    public boolean isUpdateChildren() {
+        return updateChildren;
+    }
+
+    public void setUpdateChildren(boolean updateChildren) {
+        this.updateChildren = updateChildren;
+    }
+
     @Override
     public String toString() {
         return "UserCreateForm{" +
-                ", username='" + username + '\'' +
-                ", firstName='" + firstName + '\'' +
-                "lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
+                ", username=" + username  +
+                ", firstName=" + firstName +
+                ", lastName=" + lastName +
+                ", email=" + email +
                 '}';
     }
-
 }

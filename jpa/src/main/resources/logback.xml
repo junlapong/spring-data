@@ -1,5 +1,5 @@
 <configuration>
-
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
     <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
         <resetJUL>true</resetJUL>
     </contextListener>
@@ -9,19 +9,17 @@
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%.-1level|%-30.30logger{0}|%msg%n</pattern>
+            <pattern>%.-1level|JPA|%-30.30logger{0}|%msg%n</pattern>
         </encoder>
     </appender>
 
     <logger name="com.nixmash.springdata" level="info"/>
-    <logger name="org.thymeleaf" level="info"/>
+    <logger name="org.thymeleaf" level="off"/>
     <logger name="org.hibernate" level="OFF"/>
-
 
     <!--<include resource="logJpaToFile.xml" />-->
 
-    <root level="error">
+    <root level="OFF">
         <appender-ref ref="console"/>
     </root>
->
 </configuration>

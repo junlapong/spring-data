@@ -2,7 +2,6 @@ package com.nixmash.springdata.jpa.config.db;
 
 import com.nixmash.springdata.jpa.enums.DataConfigProfile;
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
-import org.hibernate.cfg.ImprovedNamingStrategy;
 import org.hibernate.dialect.Dialect;
 import org.hibernate.dialect.HSQLDialect;
 import org.springframework.context.annotation.Bean;
@@ -15,11 +14,6 @@ import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
-import java.util.Properties;
-
-import static java.lang.Boolean.TRUE;
-import static org.hibernate.cfg.AvailableSettings.*;
-import static org.hibernate.jpa.AvailableSettings.NAMING_STRATEGY;
 
 @Configuration
 @PropertySource("classpath:/META-INF/spring/h2database.properties")
@@ -42,22 +36,9 @@ public class H2Config extends JpaCommonConfig {
         dataSource.setTimeBetweenEvictionRunsMillis(1800000);
         dataSource.setNumTestsPerEvictionRun(3);
         dataSource.setMinEvictableIdleTimeMillis(1800000);
+        dataSource.setMaxTotal(-1);
         return dataSource;
     }
-
-    @Override
-    protected Properties getJpaProperties() {
-        Properties properties = new Properties();
-        properties.setProperty(HBM2DDL_AUTO, getHbm2ddl());
-        properties.setProperty(GENERATE_STATISTICS, TRUE.toString());
-        properties.setProperty(SHOW_SQL, getShowSql());
-        properties.setProperty(FORMAT_SQL, TRUE.toString());
-        properties.setProperty(USE_SQL_COMMENTS, TRUE.toString());
-        properties.setProperty(CONNECTION_CHAR_SET, getHibernateCharSet());
-        properties.setProperty(NAMING_STRATEGY, ImprovedNamingStrategy.class.getName());
-        return properties;
-    }
-
 
     @Override
     protected Class<? extends Dialect> getDatabaseDialect() {

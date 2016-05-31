@@ -18,20 +18,20 @@ Date: 2015-04-21 17:49:43
 -- Users
 ------------------------------------------------------------
 
-INSERT INTO users (user_id, email, username, password, first_name, last_name, enabled, account_expired, account_locked, credentials_expired) VALUES (1, 'admin@email.com', 'admin', '$2a$10$B9wQFSrr3bfQeUGqxtTDuut1.4YFcA/WFthZaGe1wtb1wgVW./Oiq', 'Admin', 'Jones', true, false, false, false);
-INSERT INTO users (user_id, email, username, password, first_name, last_name, enabled, account_expired, account_locked, credentials_expired) VALUES (2, 'user@aol.com', 'user', '$2a$10$F2a2W8RtbD99xXd9xtwjbuI4zjSYe04kS.s0FyvQcAIDJfh/6jjLW', 'User', 'Charlie', true, false, false, false);
-INSERT INTO users (user_id, email, username, password, first_name, last_name, enabled, account_expired, account_locked, credentials_expired) VALUES (3, 'keith@aol.com', 'keith', '$2a$10$F2a2W8RtbD99xXd9xtwjbuI4zjSYe04kS.s0FyvQcAIDJfh/6jjLW', 'Keith', 'Obannon', true, false, false, false);
-INSERT INTO users (user_id, email, username, password, first_name, last_name, enabled, account_expired, account_locked, credentials_expired) VALUES (4, 'erwin@aol.com', 'erwin', '$2a$10$F2a2W8RtbD99xXd9xtwjbuI4zjSYe04kS.s0FyvQcAIDJfh/6jjLW', 'Erwin', 'Lapote', true, false, false, false);
-INSERT INTO users (user_id, email, username, password, first_name, last_name, enabled, account_expired, account_locked, credentials_expired) VALUES (5, 'jeremy@aol.com', 'jeremy', '$2a$10$F2a2W8RtbD99xXd9xtwjbuI4zjSYe04kS.s0FyvQcAIDJfh/6jjLW', 'Jeremy', 'Sloan', true, false, false, false);
-INSERT INTO users (user_id, email, username, password, first_name, last_name, enabled, account_expired, account_locked, credentials_expired) VALUES (6, 'scott@aol.com', 'scott', '$2a$10$F2a2W8RtbD99xXd9xtwjbuI4zjSYe04kS.s0FyvQcAIDJfh/6jjLW', 'Scott', 'Shoenberger', true, false, false, false);
+INSERT INTO users (user_id, email, username, password, first_name, last_name, enabled, account_expired, account_locked, credentials_expired, has_avatar, user_key, provider_id) VALUES (1, 'admin@email.com', 'admin', '$2a$10$B9wQFSrr3bfQeUGqxtTDuut1.4YFcA/WFthZaGe1wtb1wgVW./Oiq', 'Admin', 'Jones', true, false, false, false, false, '4L4Hr3skHYYMbjkQ', 'SITE');
+INSERT INTO users (user_id, email, username, password, first_name, last_name, enabled, account_expired, account_locked, credentials_expired, has_avatar, user_key, provider_id) VALUES (2, 'user@aol.com', 'user', '$2a$10$F2a2W8RtbD99xXd9xtwjbuI4zjSYe04kS.s0FyvQcAIDJfh/6jjLW', 'User', 'Charlie', true, false, false, false, false, 'v7jXapyD6fbRyZvi', 'SITE');
+INSERT INTO users (user_id, email, username, password, first_name, last_name, enabled, account_expired, account_locked, credentials_expired, has_avatar, user_key, provider_id) VALUES (3, 'keith@aol.com', 'keith', '$2a$10$F2a2W8RtbD99xXd9xtwjbuI4zjSYe04kS.s0FyvQcAIDJfh/6jjLW', 'Keith', 'Obannon', true, false, false, false, false, 'HuoPByrU0hC87gz8', 'SITE');
+INSERT INTO users (user_id, email, username, password, first_name, last_name, enabled, account_expired, account_locked, credentials_expired, has_avatar, user_key, provider_id) VALUES (4, 'erwin@aol.com', 'erwin', '$2a$10$F2a2W8RtbD99xXd9xtwjbuI4zjSYe04kS.s0FyvQcAIDJfh/6jjLW', 'Erwin', 'Lapote', true, false, false, false, false, 'kSpaxKbYIL0a5Mma', 'SITE');
+INSERT INTO users (user_id, email, username, password, first_name, last_name, enabled, account_expired, account_locked, credentials_expired, has_avatar, user_key, provider_id) VALUES (5, 'jeremy@aol.com', 'jeremy', '$2a$10$F2a2W8RtbD99xXd9xtwjbuI4zjSYe04kS.s0FyvQcAIDJfh/6jjLW', 'Jeremy', 'Sloan', true, false, false, false, false, 'xt4e25EoFgjx5CP2', 'SITE');
+INSERT INTO users (user_id, email, username, password, first_name, last_name, enabled, account_expired, account_locked, credentials_expired, has_avatar, user_key, provider_id) VALUES (6, 'scott@aol.com', 'scott', '$2a$10$F2a2W8RtbD99xXd9xtwjbuI4zjSYe04kS.s0FyvQcAIDJfh/6jjLW', 'Scott', 'Shoenberger', true, false, false, false, false, 'Fx05XbWjPFECJZQP', 'SITE');
 
 
 ------------------------------------------------------------
 -- Authorities
 ------------------------------------------------------------
 
-INSERT INTO authorities (authority_id, authority) VALUES (1, 'ROLE_ADMIN');
-INSERT INTO authorities (authority_id, authority) VALUES (2, 'ROLE_USER');
+INSERT INTO authorities (authority_id, authority, is_locked) VALUES (1, 'ROLE_ADMIN', true);
+INSERT INTO authorities (authority_id, authority, is_locked) VALUES (2, 'ROLE_USER', true);
 
 ------------------------------------------------------------
 -- User_Authorities
@@ -70,3 +70,9 @@ INSERT INTO hobbies (hobby_title) VALUES ('Swimming');
 
 INSERT INTO contact_hobby_ids (contact_id,hobby_id) VALUES ('1','1'),('1','2'),('2','3'),('2','4'),('3','5'),('3','1'),('4','2'),('4','3'),('5','4'),('5','5');
 INSERT INTO contact_hobby_ids (contact_id,hobby_id) VALUES ('6','1'),('6','2'),('7','3'),('7','4'),('8','5'),('8','1'),('9','2'),('9','3'),('10','4'),('10','5');
+
+INSERT INTO site_options(option_id, option_name, option_value) VALUES ('1', 'siteName','My Site');
+INSERT INTO site_options(option_id, option_name, option_value) VALUES ('2', 'siteDescription','My Site Description');
+INSERT INTO site_options(option_id, option_name, option_value) VALUES ('3', 'addGoogleAnalytics','false');
+INSERT INTO site_options(option_id, option_name, option_value) VALUES ('4', 'googleAnalyticsTrackingId','UA-XXXXXX-7');
+INSERT INTO site_options(option_id, option_name, option_value) VALUES ('5', 'integerProperty','1');

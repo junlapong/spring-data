@@ -1,23 +1,21 @@
 package com.nixmash.springdata.mvc.controller;
 
-import com.nixmash.springdata.jpa.exceptions.UnknownResourceException;
+import com.nixmash.springdata.jpa.dto.GitHubDTO;
+import com.nixmash.springdata.mail.service.TemplateService;
 import com.nixmash.springdata.mvc.AbstractContext;
+import com.nixmash.springdata.mvc.components.WebUI;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.support.RootBeanDefinition;
-import org.springframework.context.support.StaticApplicationContext;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.object.IsCompatibleType.typeCompatibleWith;
+import static com.nixmash.springdata.mvc.controller.GeneralController.HOME_VIEW;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.isA;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -25,46 +23,43 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 public class GeneralControllerTests extends AbstractContext {
 
-    @Autowired
     GeneralController mockController;
 
     private MockMvc mockMvc;
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
+    @Autowired
+    TemplateService templateService;
+
+    @Autowired
+    WebUI webUI;
 
     @Before
     public void setUp() {
-
-        final ExceptionHandlerExceptionResolver exceptionResolver = new ExceptionHandlerExceptionResolver();
-        final StaticApplicationContext applicationContext = new StaticApplicationContext();
-        applicationContext.registerBeanDefinition("globalController",
-                new RootBeanDefinition(GlobalController.class, null, null));
-        exceptionResolver.setApplicationContext(applicationContext);
-        exceptionResolver.afterPropertiesSet();
-
-        mockMvc = MockMvcBuilders.standaloneSetup(mockController)
-                .setHandlerExceptionResolvers(exceptionResolver).build();
-
+        mockController = new GeneralController(templateService, webUI);
+        mockMvc = MockMvcBuilders.standaloneSetup(mockController).build();
     }
 
     @Test
     public void homePageTest() throws Exception {
         mockMvc.perform(get("/"))
                 .andExpect(model().hasNoErrors())
-                .andExpect(view().name(GeneralController.HOME_VIEW));
+                .andExpect(model().attribute("gitHubStats", isA(GitHubDTO.class)))
+                .andExpect(view().name(HOME_VIEW));
     }
 
     @Test
     public void resourceNotFoundExceptionTest() throws Exception {
-
-        MvcResult result = mockMvc.perform(get("/badurl"))
-                .andExpect(status().isOk())
-                .andExpect(view().name(GlobalController.ERROR_404_VIEW))
+        mockMvc.perform(get("/badurl"))
+                .andExpect(status().isNotFound())
                 .andReturn();
-
-        assertThat(result.getResolvedException().getClass(),
-                typeCompatibleWith(UnknownResourceException.class));
     }
 
+    @Test
+    public void retrieveRobotsTxtFile() throws Exception {
+        mockMvc.perform(get("/robots.txt"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.TEXT_PLAIN))
+                .andExpect(content().string(containsString("Disallow")));
+
+    }
 }

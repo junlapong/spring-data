@@ -1,18 +1,19 @@
 package com.nixmash.springdata.jpa.model;
 
 import com.nixmash.springdata.jpa.enums.Role;
+import com.nixmash.springdata.jpa.enums.SignInProvider;
 import com.nixmash.springdata.jpa.model.validators.ExtendedEmailValidator;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -26,6 +27,7 @@ public class User implements UserDetails, Serializable {
     public static final int MAX_LENGTH_LAST_NAME = 50;
     public static final int MAX_LENGTH_USERNAME = 15;
     public static final int MAX_LENGTH_PASSWORD = 20;
+    public static final int MAX_LENGTH_PROVIDERID = 25;
 
     public static final int MIN_LENGTH_USERNAME = 3;
     public static final int MIN_LENGTH_PASSWORD = 6;
@@ -45,6 +47,10 @@ public class User implements UserDetails, Serializable {
         return id;
     }
 
+    @Transient
+    public boolean isNew() {
+        return (this.id == null);
+    }
 
     @Column(unique = true)
     @NotEmpty
@@ -63,12 +69,12 @@ public class User implements UserDetails, Serializable {
     @Column(unique=true, nullable = false)
     private String email;
 
-    @Column
+    @Column(name = "first_name")
     @NotEmpty
     @Length(max=MAX_LENGTH_FIRST_NAME)
     private String firstName;
 
-    @Column
+    @Column(name = "last_name")
     @NotEmpty
     @Length(max=MAX_LENGTH_LAST_NAME)
     private String lastName;
@@ -82,6 +88,16 @@ public class User implements UserDetails, Serializable {
     @Column(name = "credentials_expired")
     private boolean credentialsExpired = false;
 
+    @Column(name = "provider_id", length =25)
+    @Enumerated(EnumType.STRING)
+    private SignInProvider signInProvider;
+
+    @Column(name = "user_key", length =25)
+    private String userKey;
+
+    @Column(name = "has_avatar")
+    private boolean hasAvatar = false;
+
     @Column
     private boolean enabled = true;
 
@@ -89,7 +105,7 @@ public class User implements UserDetails, Serializable {
     @JoinTable(name = "user_authorities",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id"))
-    private Collection<Authority> authorities;
+    public Collection<Authority> authorities;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private UserProfile userProfile;
@@ -155,6 +171,14 @@ public class User implements UserDetails, Serializable {
         this.userProfile = userProfile;
     }
 
+    public SignInProvider getSignInProvider() {
+        return signInProvider;
+    }
+
+    public void setSignInProvider(SignInProvider signInProvider) {
+        this.signInProvider = signInProvider;
+    }
+
     @Override
     public Collection<Authority> getAuthorities() {
         return authorities;
@@ -206,18 +230,50 @@ public class User implements UserDetails, Serializable {
         this.enabled = enabled;
     }
 
+    public String getUserKey() {
+        return userKey;
+    }
+
+    public void setUserKey(String userKey) {
+        this.userKey = userKey;
+    }
+
+    public boolean hasAvatar() {
+        return hasAvatar;
+    }
+
+    public void setHasAvatar(boolean hasAvatar) {
+        this.hasAvatar = hasAvatar;
+    }
+
+// @formatter:off
+    
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", username=" + username +
+                ", email=" + email +
+                ", firstName=" + firstName  +
+                ", lastName=" + lastName  +
                 ", accountExpired=" + accountExpired +
                 ", accountLocked=" + accountLocked +
                 ", credentialsExpired=" + credentialsExpired +
+                ", userKey=" + userKey +
+                ", hasAvatar=" + hasAvatar +
+                ", signInProvider=" + signInProvider +
                 ", enabled=" + enabled +
+                ", new=" + this.isNew() +
                 '}';
     }
+
+    public void update(String username, String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.username = username;
+    }
+
+    // @formatter:on
+    
 }

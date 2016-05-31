@@ -8,6 +8,7 @@ import com.nixmash.springdata.jpa.model.validators.ContactFormValidator;
 import com.nixmash.springdata.jpa.service.ContactService;
 import com.nixmash.springdata.mvc.AbstractContext;
 import com.nixmash.springdata.mvc.MvcTestUtil;
+import com.nixmash.springdata.mvc.components.WebUI;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +24,6 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -47,6 +47,8 @@ import java.util.Map;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -65,6 +67,8 @@ public class ContactControllerTests extends AbstractContext {
     private List<Contact> allContacts;
     private MessageSource mockMessageSource;
 
+    String user;
+
     private static final String FIELD_NAME_EMAIL_ADDRESS = "email";
     private static final String FIELD_NAME_LAST_NAME = "lastName";
     private static final String FEEDBACK_MESSAGE = "feedbackMessage";
@@ -77,6 +81,9 @@ public class ContactControllerTests extends AbstractContext {
 
     @Autowired
     MockHttpSession session;
+
+    @Autowired
+    WebUI webUI;
 
     @Resource
     private Validator validator;
@@ -91,11 +98,9 @@ public class ContactControllerTests extends AbstractContext {
         mockMessageSource = mock(MessageSource.class);
         mockService = mock(ContactService.class);
 
-        mockController = new ContactController(mockService, contactFormValidator);
-        h2Controller = new ContactController(contactService, contactFormValidator);
+		mockController = new ContactController(mockService, contactFormValidator, webUI);
+        h2Controller = new ContactController(contactService, contactFormValidator, webUI);
 
-        ReflectionTestUtils.setField(mockController, "messageSource", mockMessageSource);
-        ReflectionTestUtils.setField(h2Controller, "messageSource", mockMessageSource);
 
         // Contact is H2 Contact ID #1 "Summer Glass"
         try {
@@ -125,7 +130,7 @@ public class ContactControllerTests extends AbstractContext {
     @Test
     public void getContactByIdJsonTest() throws Exception {
 
-        mockMvc.perform(get("/contact/json/100").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/json/contact/100").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MvcTestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.contactId", is(1)))
@@ -168,9 +173,9 @@ public class ContactControllerTests extends AbstractContext {
     @Test
     public void searchContactsTest() throws Exception {
 
-        mockMvc = standaloneSetup(new ContactController(contactService, contactFormValidator))
+        mockMvc = standaloneSetup(new ContactController(contactService, contactFormValidator, webUI))
                 .setSingleView(
-                        new InternalResourceView("/WEB-INF/views/contacts/list.html"))
+                        new InternalResourceView("/contacts/list"))
                 .build();
 
         // TEST SINGLE CONTACT RETRIEVED
@@ -193,7 +198,7 @@ public class ContactControllerTests extends AbstractContext {
                 .andExpect(model()
                         .attributeHasFieldErrorCode("contact",
                                 "lastName",
-                                "search.contact.notfound"))
+                                "contact.search.notfound"))
                 .andExpect(view().name("contacts/search"));
 
 
@@ -229,6 +234,7 @@ public class ContactControllerTests extends AbstractContext {
         Contact contact = ContactTestUtils.newContact();
         BindingResult result = bindAndValidate(mockRequest, contact);
 
+
         RedirectAttributes attributes = new RedirectAttributesModelMap();
         initMessageSourceForFeedbackMessage(ContactController.FEEDBACK_MESSAGE_KEY_CONTACT_ADDED);
 
@@ -253,15 +259,14 @@ public class ContactControllerTests extends AbstractContext {
         RedirectAttributes attributes = new RedirectAttributesModelMap();
         initMessageSourceForFeedbackMessage(ContactController.FEEDBACK_MESSAGE_KEY_CONTACT_UPDATED);
 
-        String view = mockController.updateContact(contact, result,
-                attributes, model);
+        String view = mockController.updateContact(contact, result, attributes, model);
         verify(mockService, times(1)).update(any(ContactDTO.class));
         String expectedView = createExpectedRedirectViewPath("/contacts");
 
         assertEquals(expectedView, view);
         contact = mockService.findContactById(100L);
         assertTrue(contact.getLastName().equals("Smith"));
-        assertFeedbackMessage(attributes, ContactController.FEEDBACK_MESSAGE_KEY_CONTACT_UPDATED);
+		assertFeedbackMessage(attributes, ContactController.FEEDBACK_MESSAGE_KEY_CONTACT_UPDATED);
     }
 
     @Test
@@ -340,18 +345,13 @@ public class ContactControllerTests extends AbstractContext {
 
 
     private void assertFeedbackMessage(RedirectAttributes model, String messageCode) {
-        assertFlashMessages(model, messageCode, ContactController.FLASH_MESSAGE_KEY_FEEDBACK);
+        assertFlashMessages(model, messageCode, WebUI.FLASH_MESSAGE_KEY_FEEDBACK);
     }
 
     private void assertFlashMessages(RedirectAttributes model, String messageCode, String flashMessageParameterName) {
         Map<String, ?> flashMessages = model.getFlashAttributes();
         Object message = flashMessages.get(flashMessageParameterName);
         assertNotNull(message);
-        flashMessages.remove(message);
-        assertTrue(flashMessages.isEmpty());
-
-        verify(mockMessageSource, times(1)).getMessage(eq(messageCode), any(Object[].class), any(Locale.class));
-        verifyNoMoreInteractions(mockMessageSource);
     }
 
     // endregion

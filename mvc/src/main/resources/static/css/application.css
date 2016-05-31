@@ -1,0 +1,471 @@
+/*/<editor-fold> desc="HOME PAGE ----------------------------/ "*/
+.jumbotron {
+	padding: 40px 0;
+}
+
+.jumbotron p {
+	max-width: 550px;	
+}
+
+blockquote small {
+	color: #716561;
+}
+
+#spring-version {
+	display: block;
+	margin:  0 auto 20px auto;
+	font-style: 16px;
+}
+/*</editor-fold>*/
+
+/*/<editor-fold> desc="BODY, ROWS AND COLUMNS ----------------------------/ "*/
+body {
+	padding-top: 50px;
+}
+
+.row-centered {
+	text-align: center;
+}
+
+.row-right {
+	text-align: right;
+}
+
+.col-centered {
+	display: inline-block;
+	float: none;
+	text-align: left;
+	/* inline-block space fix */
+	margin-right: -4px;
+}
+
+col-right {
+	display: inline-block;
+	float: right;
+	text-align: right;
+	/* inline-block space fix */
+	margin-right: -4px;
+}
+
+/*</editor-fold>*/
+
+/*/<editor-fold> desc="PAGE HEADER AND SPONSOR REGION ----------------------------/ "*/
+.page-header h1 {
+	font-size: 4em;
+}
+
+.page-header {
+	border-bottom: none;
+}
+
+#sponsor {
+	text-align: right;
+}
+
+#sponsor img {
+	max-width: 175px;
+}
+
+/*</editor-fold>*/
+
+/*/<editor-fold> desc="TABLE-FORMS ----------------------------/ "*/
+#form-table, #grid-table {
+	font-size: 125%;
+}
+
+#form-table .heading {
+	width: 240px;
+	text-align: right;
+}
+
+#form-table table {
+	margin: 30px 0;
+}
+
+#form-table table.table-condensed td {
+	padding: 2px 10px;
+}
+
+#form-table table, #form-table table td, #form-table table tr {
+	border: none;
+}
+
+#form-table td.td-label {
+	text-align: right;
+	font-weight: bold;
+	padding-right: 12px;
+	width: 250px;
+}
+
+@media screen and (max-width: 970px) {
+	.page-header h1 {
+		font-size: 3em;
+	}
+}
+
+td span.hobby {
+	display: inline;
+	padding: 0 8px;
+	border-left: solid 1px black;
+}
+
+td span.hobby:first-child {
+	border-left: none;
+	padding-left: 0;
+}
+
+td.td-label .heading h2 {
+	margin-top: 0;
+	padding-right: 8px;
+}
+
+td.hobbies span {
+	margin-top: 6px;
+	display: inline-block;
+}
+
+#form-table table.table-condensed td.hobbies {
+	padding-left: 0;
+}
+
+/*</editor-fold>*/
+
+/*/<editor-fold> desc="NAVBAR ----------------------------/ "*/
+.margin-5 {
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.glyphicon-home:before, .glyphicon-th-list:before, .glyphicon-search:before
+	{
+	padding-right: 3px;
+}
+
+img.navbar-profilepic {
+    margin-top: 10px;
+    border: #ddd 1px solid;
+    margin-left: -8px;
+    margin-right: 10px;
+}
+/*</editor-fold>*/
+
+/*/<editor-fold> desc="SECUSER USER AND GITHUB PROJECT INFO ----------------------------/ "*/
+#secInfo {
+	font-size: smaller;
+	display: block;
+	margin-bottom: 50px;
+}
+
+#secInfo h3 {
+	font-size: 16px;
+}
+
+#secInfo p.secLine {
+	line-height: 2px;
+	color: #aaa;
+	margin-top: -4px;
+}
+
+.secItem {
+	padding-top: 2px;
+}
+
+#secInfo p.secNote {
+	line-height: 1.2;
+	font-style: italic;
+	margin-top: 10px;
+}
+
+.secLabel {
+	font-weight: bold;
+	margin-right: 4px;
+}
+
+.secField {
+	
+}
+
+.secItemSocial {
+    height: 35px;
+    padding-top: 3px;
+}
+
+.secItemSocial .secLabel {
+	vertical-align: super;
+}
+.github-footer {
+	margin-top: 10px;
+}
+
+.github-footer a img, .github-footer a:focus, .github-footer img {
+	border: none;
+}
+
+.github-footer a.github-version {
+	display: inline-block;
+	margin-left: 6px;
+}
+
+.btn-secinfo-social {
+	width: 80px !important;
+}
+/*</editor-fold>*/
+
+/*/<editor-fold> desc="BOOTSTRAP FORMS ----------------------------/ "*/
+h2.form-title {
+	margin-bottom: 40px;
+}
+
+.col-align-right, .button-col-align-right {
+	display: inline-block;
+	float: none;
+	text-align: right;
+}
+
+.button-col-align-right {
+	padding-right: 6px !important;
+}
+
+.input-button-right {
+	width: 80%;
+	float: left;
+}
+
+.row-delete-button {
+	
+}
+
+ul.hobbyList {
+	padding-left: 0px;
+}
+
+ul.hobbyList li {
+	list-style: none;
+	display: inline-block;
+	padding-right: 8px;
+}
+
+/*</editor-fold>*/
+
+/*/<editor-fold> desc="DEMO SITE NOTES ----------------------------/ "*/
+.demo-login-note, .demo-registration-note, .form-disabled-note {
+	font-style: italic;
+	display: block;
+	margin: 15px 0;
+	color: #333;
+}
+
+/*</editor-fold>*/
+
+/*/<editor-fold> desc="JAVASCRIPT----------------------------/ "*/
+.cod-name {
+	display: inline-block;
+	margin-bottom: 4px;
+}
+
+.cod-hobbies {
+	float: left;
+	margin-right: 4px;
+}
+
+ul.cod-hobbylist {
+	padding-left: 0px;
+}
+
+ul.cod-hobbylist li {
+	list-style: none;
+	display: inline-block;
+	padding-right: 4px;
+}
+
+ul.cod-hobbylist li:after {
+	content: ", ";
+}
+
+ul.cod-hobbylist li:last-child:after {
+	content: "";
+}
+/*</editor-fold>*/
+
+/*/<editor-fold> desc="MULTI-ITEM DISPLAY----------------------------/ "*/
+ul.catlist {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul.catlist li {
+	display: inline;
+}
+
+ul.catlist li a:after {
+	content: ",";
+}
+
+ul.catlist li:last-child a:after {
+	content: "";
+}
+
+ul.featurelist {
+	list-style: none;
+	margin: 0;
+	padding-left: 1em;
+	padding-top: 0.1em;
+	padding: .1em 0 .5em 1em;
+}
+
+ul.featurelist li:before {
+	content: "\e005";
+	font-family: 'Glyphicons Halflings';
+	font-size: 9px;
+	float: left;
+	margin-top: 7px;
+	margin-left: -18px;
+	color: #dd4814;
+}
+
+/*</editor-fold>*/
+
+/*/<editor-fold> desc="MULTI-SELECT DROPDOWNS ----------------------------/ "*/
+.btn-badgeboy {
+	
+}
+
+.btn-badgeboy b.caret {
+	display: none;
+}
+
+.btn-xs .badge, .btn-group-xs>.btn .badge {
+	margin-left: 5px;
+}
+
+#badges {
+	display: block;
+	margin-top: 9px;
+	font-style: italic;
+}
+
+/*</editor-fold>*/
+
+/*/<editor-fold> desc="SOCIAL ELEMENTS ----------------------------/ "*/
+
+/* GOOGLE MAPS ---------------------------------------------- */
+#form-table tr.locationRow td {
+	padding-top: 15px;
+}
+
+/* HIGHLIGHTING ---------------------------------------------- */
+td a b {
+	background-color: Yellow;
+}
+
+/* SOCIAL BUTTONS ---------------------------------------------- */
+.welcome-row {
+	font-size: 18px;
+    padding-bottom: 2em;
+}
+.social-button-row {
+	padding-bottom: 3.0em;
+}
+
+.login-social-button-row {
+	padding-bottom: 3.0em;
+	padding-top: 40px;
+}
+
+.social-button-row-flushright {
+	float: right;
+}
+
+i.fa-twitter {
+	margin-right: 2px;
+}
+
+i.fa-facebook {
+	margin-right: 4px;
+}
+
+i.fa-google {
+	margin-right: 2px;
+}
+
+.btn-facebook-login {
+	margin-left: 40px;
+}
+
+.btn-facebook, .btn-twitter, .btn-google {
+
+}
+
+form#fb_signin, form#tw_signin, form#gl_signin {
+	display: inline-block;
+	margin-right: 4px;
+}
+
+/*</editor-fold>*/
+
+/*/<editor-fold> desc="USER PROFILE ----------------------------/ "*/
+
+#profile-area {
+	margin: 30px auto 60px auto;
+	display: inline-block;
+}
+
+.profile-pic {
+	float: left;
+	max-width: 30%;
+}
+
+.profile-pic img {
+	max-width: 100%;
+}
+
+.profile-pic-button {
+	display: block;
+	margin: 30px auto 0px auto;
+	text-align: center;
+}
+
+.profile-pic-upload-form {
+	max-width: 60%;
+	float: right;
+}
+
+.profile-pic-upload-form div, .profile-pic-upload-form h3 {
+	margin-bottom: 15px;
+}
+
+#form-table table.table-profile {
+	max-width: 70%;
+	margin: 0 auto 20px auto;
+}
+
+/*</editor-fold>*/
+
+/*/<editor-fold> desc="MAIL ----------------------------/ "*/
+
+textarea.mail-body {
+	word-break: keep-all;
+	resize: none;
+	width: 100%;
+}
+/*</editor-fold>*/
+
+/*/<editor-fold> desc="SUBMENUS----------------------------/ "*/
+
+.marginBottom-0 {margin-bottom:0;}
+
+.dropdown-submenu{position:relative;}
+.dropdown-submenu>.dropdown-menu{top:0;left:100%;margin-top:-6px;margin-left:-1px;-webkit-border-radius:0 6px 6px 6px;-moz-border-radius:0 6px 6px 6px;border-radius:0 6px 6px 6px;}
+.dropdown-submenu>a:after{display:block;content:" ";float:right;width:0;height:0;border-color:transparent;border-style:solid;border-width:5px 0 5px 5px;border-left-color:#cccccc;margin-top:5px;margin-right:-10px;}
+.dropdown-submenu:hover>a:after{border-left-color:#555;}
+.dropdown-submenu.pull-left{float:none;}.dropdown-submenu.pull-left>.dropdown-menu{left:-100%;margin-left:10px;-webkit-border-radius:6px 0 6px 6px;-moz-border-radius:6px 0 6px 6px;border-radius:6px 0 6px 6px;}
+
+nav .open>a, .nav .open>a:hover, .nav .open>a:focus {
+	background-color: #dd4814;
+	border-color: #dd4814;
+}
+
+
+/*</editor-fold>*/
+
